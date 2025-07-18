@@ -1,32 +1,58 @@
 #!/usr/bin/env python3
-# Student ID: [seneca_id]
+# Student ID: 154195226
+
 class Time:
-    """Simple object type for time of the day.
-    data attributes: hour, minute, second
-    """
-    def __init__(self,hour=12,minute=0,second=0):
-        """constructor for time object""" 
+    def __init__(self, hour=0, minute=0, second=0):
         self.hour = hour
         self.minute = minute
         self.second = second
 
-def format_time(t):
-    """Return time object (t) as a formatted string"""
-    return f'{t.hour:02d}:{t.minute:02d}:{t.second:02d}'
+    def format_time(self):
+        # Returns a formatted string "HH:MM:SS"
+        return f"{self.hour:02d}:{self.minute:02d}:{self.second:02d}"
 
+    def sum_times(self, other):
+        # Sum two Time objects and return a new Time object
+        total_seconds = self.time_to_sec() + other.time_to_sec()
+        return Time.sec_to_time(total_seconds)
+
+    def change_time(self, seconds):
+        # Change time by a given number of seconds
+        total_seconds = self.time_to_sec() + seconds
+        new_time = Time.sec_to_time(total_seconds)
+        self.hour = new_time.hour
+        self.minute = new_time.minute
+        self.second = new_time.second
+
+    def valid_time(self):
+        # Returns True if time is valid else False
+        return 0 <= self.hour < 24 and 0 <= self.minute < 60 and 0 <= self.second < 60
+
+    def time_to_sec(self):
+        # Convert current time to total seconds
+        return self.hour * 3600 + self.minute * 60 + self.second
+
+    @staticmethod
+    def sec_to_time(seconds):
+        # Convert seconds to Time object, handle wrap around 24 hours
+        seconds = seconds % (24 * 3600)
+        h = seconds // 3600
+        seconds %= 3600
+        m = seconds // 60
+        s = seconds % 60
+        return Time(h, m, s)
+
+    def __str__(self):
+        # String representation to print object easily
+        return self.format_time()
+
+
+# Standalone function to sum two Time objects (used by lab7a1.py)
 def sum_times(t1, t2):
-    """Add two time objests and return the sum."""
-    sum = Time(0,0,0)
-    sum.hour = t1.hour + t2.hour
-    sum.minute = t1.minute + t2.minute
-    sum.second = t1.second + t2.second
-    return sum
+    total_seconds = t1.time_to_sec() + t2.time_to_sec()
+    return Time.sec_to_time(total_seconds)
 
-def valid_time(t):
-    """check for the validity of the time object attributes:
-        24 > hour > 0, 60 > minute > 0, 60 > second > 0 """
-    if t.hour < 0 or t.minute < 0 or t.second < 0:
-        return False
-    if t.minute >= 60 or t.second >= 60 or t.hour >= 24:
-        return False
-    return True
+
+# Standalone function to format Time object as string (used by lab7a1.py)
+def format_time(t):
+    return t.format_time()

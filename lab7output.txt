@@ -1,0 +1,6 @@
+Time 1: 10:45:15
+Time 2: 02:20:50
+Time 1 + Time 2 = 13:06:05
+Time 1 after adding 5000 seconds: 12:08:35
+Is Time 2 valid? True
+Is invalid_time valid? False
